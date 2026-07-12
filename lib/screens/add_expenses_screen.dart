@@ -79,15 +79,22 @@ class _AddExpensesScreenState extends ConsumerState<AddExpensesScreen> {
             final double? amountInput = double.tryParse(_amountController.text.trim());
             final DateTime dateInput = date;
 
-
-
-
            if (noteInput.isEmpty || amountInput==null){
              ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor: Colors.red,content:Text('Fill the form' ,
                style: TextStyle(color: Colors.black) ,)));
 
              return ;
            }
+           if(amountInput<=0|| amountInput.isNegative){
+             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Enter a valid amount' ,
+               style: TextStyle(color: Colors.red) ,),));
+             return;
+           }
+            if(noteInput.length>100){
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Note is too long' ,
+                style: TextStyle(color: Colors.red) ,),));
+              return;
+            }
             final newExpense = Expense(
                 id: '', amount: amountInput, category: item ?? 'Other', note: noteInput, date: dateInput , userId: '');
 

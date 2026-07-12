@@ -49,6 +49,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 20,),
                 TextButton(onPressed: () async {
+                  if (_emailController.text.isEmpty || _passwordController.text.isEmpty){
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Email and password are required" ,
+                      style: TextStyle(color: Colors.red) ,)));
+                    return;
+                  }
+                  if(_passwordController.text.length<6){
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Password should be more than 6 characters" ,
+                      style: TextStyle(color: Colors.red),),));
+                 return;
+                  }
                   try {
                     await FirebaseAuth.instance.signInWithEmailAndPassword(
                         email: _emailController.text.trim(),

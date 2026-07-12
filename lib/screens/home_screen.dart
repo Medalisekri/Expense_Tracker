@@ -12,6 +12,8 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context , WidgetRef ref) {
     final expenses = ref.watch(expenseProvider);
+
+
     double total = expenses.fold(0.0, (sum , expense) => sum +expense.amount);
       return Scaffold(
         appBar: AppBar(
@@ -43,12 +45,9 @@ class HomeScreen extends ConsumerWidget {
 
                         Expanded(child:
                         ListView.builder(
-
                             itemCount: expenses.length,
                             itemBuilder: (context , index) {
-
                               return ListTile(
-
                                 trailing: TextButton(onPressed: (){
                                   ref.read(expenseProvider.notifier).deleteExpense(expenses[index].id);
                                 }
@@ -61,7 +60,6 @@ class HomeScreen extends ConsumerWidget {
                                   fontWeight: FontWeight.bold,
                                 ),),
                                 subtitle: Text('${expenses[index].amount} DT'),
-
                               );
 
                             }),

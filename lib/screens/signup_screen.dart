@@ -47,6 +47,23 @@ class _SignupScreenState extends State<SignupScreen> {
                 TextButton(onPressed: () async{
                   final emailInput = _emailController.text.trim();
                   final passInput = _passwordController.text.trim();
+                  if(_passwordController.text.isEmpty || _emailController.text.isEmpty){
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Email and password are required" ,
+                      style: TextStyle(color: Colors.red) ,),));
+                  return;
+                  }
+
+                  if(!_emailController.text.contains('@') || !_emailController.text.contains('.')){
+                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Enter a valid email",
+                     style: TextStyle(color: Colors.red) ,),));
+                    return;
+                  }
+                  if(_passwordController.text.length<6){
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Password should be more than 6 characters",
+                    style: TextStyle(color: Colors.red),),));
+                    return;
+                  }
+
                   try{
                     await FirebaseAuth.instance.createUserWithEmailAndPassword(email: emailInput, password: passInput);
                     Navigator.pushReplacementNamed(context, '/home');
