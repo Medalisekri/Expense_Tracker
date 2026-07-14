@@ -1,8 +1,6 @@
 import 'package:expense_tracker/repositories/expense_repository.dart';
 import 'package:flutter_riverpod/legacy.dart';
-
 import '../models/expense.dart';
-
 class ExpenseNotifier extends StateNotifier<List<Expense>>{
   ExpenseNotifier() :super([]){
     loadExpenses();
@@ -15,6 +13,9 @@ class ExpenseNotifier extends StateNotifier<List<Expense>>{
   }
   void addExpense(Expense expense){
     _repository.addExpense(expense);
+  }
+  void updateExpense(Expense expense){
+    _repository.updateExpense(expense);
   }
   void deleteExpense(String id){
     _repository.deleteExpense(id);

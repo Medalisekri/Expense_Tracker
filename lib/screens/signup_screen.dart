@@ -2,11 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
-
   @override
   State<SignupScreen> createState() => _SignupScreenState();
 }
-
 class _SignupScreenState extends State<SignupScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -19,32 +17,74 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Sign up'),
+      body:Container(
+        height: double.infinity,
+        width: double.infinity,
+        decoration: BoxDecoration(
+        gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Colors.white54 , Colors.indigoAccent  , Colors.white12 ]),
       ),
-      body: Column(
+        child: SafeArea(child:
+      Column(
+mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Card(
+          Text('Create an account' , style: TextStyle(fontSize: 20),),
+          const SizedBox(height: 35,),
+
+          Container(
+            padding: EdgeInsets.all(30),
+            margin: EdgeInsets.all(15),
+            decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.2),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: Colors.black.withValues(alpha: 0.3))
+          ),
+
             child: Column(
+
               children: [
-                Text('Create an account'),
-                const SizedBox(height: 35,),
+
+
                 TextField(
                   controller: _emailController,
+                  style: TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     label: Text('Email'),
+                    labelStyle: TextStyle(color: Colors.white),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                      borderRadius: BorderRadius.circular(20),
+                    )
                   ),
                 ),
-                const SizedBox(height: 15,),
+                const SizedBox(height: 20,),
                 TextField(
                   controller: _passwordController,
+                  style: TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     label: Text('Password'),
+                    labelStyle: TextStyle(color: Colors.white),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      borderSide: BorderSide(color: Colors.black),
+                    )
                   ),
                   obscureText: true,
                 ),
-                const SizedBox(height: 35,),
-                TextButton(onPressed: () async{
+                const SizedBox(height: 40,),
+                SizedBox(width: double.infinity,
+                    child:
+                ElevatedButton(onPressed: () async{
                   final emailInput = _emailController.text.trim();
                   final passInput = _passwordController.text.trim();
                   if(_passwordController.text.isEmpty || _emailController.text.isEmpty){
@@ -71,12 +111,24 @@ class _SignupScreenState extends State<SignupScreen> {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message ?? 'SignUp Failed')));
                   }
                 },
-                    child: Text('Sign Up'))
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(15)),
+                      backgroundColor: Colors.black54,
+                      padding: EdgeInsets.symmetric(vertical: 16)
+                    ),
+                    child: Text('Sign Up' , style: TextStyle(color: Colors.white),))),
+               const SizedBox(height: 30,),
+                TextButton(onPressed: (){
+                  Navigator.pushNamed(context, '/login');
+                },
+                    child: Text('Already have an account? Login'))
               ],
             ),
           )
+
         ],
       ),
+      ))
     );
   }
 }

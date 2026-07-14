@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-
 class Expense {
   final String id;
   final double amount;
@@ -18,7 +16,6 @@ class Expense {
       required this.userId,
 
 });
-
     Map<String , dynamic> toMap() {
       return {
 
@@ -41,7 +38,6 @@ class Expense {
         userId: data['userId'],
       );
     }
-
     Expense copyWith({
     String? id ,
       double? amount,

@@ -1,15 +1,12 @@
 
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
-
 class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -21,44 +18,79 @@ class _LoginScreenState extends State<LoginScreen> {
   }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Login'),
+   body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Colors.white54, Colors.indigoAccent, Colors.white12],
+          )
       ),
-      body: Column(
+        child:
+            SafeArea(child:
+      Column(
+          mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('Login'),
+          Text('Welcome Back' , style: TextStyle(fontSize: 30),),
           const SizedBox(height: 35,),
-          Card(
+          Container(
+            padding: EdgeInsets.all(30),
+          margin: EdgeInsets.all(20),
+          decoration: BoxDecoration(
+
+          color: Colors.white.withValues(alpha: 0.2),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: Colors.black.withValues(alpha: 0.3)),
+          ) ,
             child: Column(
               children: [
               TextField(
                 controller: _emailController,
+                style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
-                  label: Text('Email')
+                  label: Text('Email'),
+                  labelStyle: TextStyle(color: Colors.white54),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                    borderRadius: BorderRadius.circular(12),
+                  )
                 ),
               ),
+                const SizedBox(height: 25,),
                 TextField(
-
                   controller: _passwordController,
+                  style: TextStyle(color: Colors.white),
                   decoration: InputDecoration(
-                      label: Text('Password')
+                      label: Text('Password'),
+                      labelStyle: TextStyle(color: Colors.white54),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                        borderRadius: BorderRadius.circular(12),
+                      )
                   ),
                   obscureText: true,
-
                 ),
-                const SizedBox(height: 20,),
-                TextButton(onPressed: () async {
+                const SizedBox(height: 40,),
+                SizedBox(width: double.infinity,
+             child:    ElevatedButton(onPressed: () async {
                   if (_emailController.text.isEmpty || _passwordController.text.isEmpty){
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Email and password are required" ,
                       style: TextStyle(color: Colors.red) ,)));
                     return;
                   }
-                  if(_passwordController.text.length<6){
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Password should be more than 6 characters" ,
-                      style: TextStyle(color: Colors.red),),));
-                 return;
-                  }
+
                   try {
                     await FirebaseAuth.instance.signInWithEmailAndPassword(
                         email: _emailController.text.trim(),
@@ -67,19 +99,25 @@ class _LoginScreenState extends State<LoginScreen> {
                   }
                   on FirebaseAuthException catch (e) {
                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text(e.message?? 'Login Failed')));
-
                   }
                 },
-                    child: Text('Login')),
-                const SizedBox(height: 40,),
+                 style: ElevatedButton.styleFrom(
+                   backgroundColor: Colors.black54,
+                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                   padding: EdgeInsets.symmetric(vertical: 16)
+                 ),
+                    child: Text('Login' , style: TextStyle(color: Colors.white),)),),
+                const SizedBox(height: 30,),
                 TextButton(onPressed:(){
                   Navigator.pushNamed(context, '/signup');
-                }, child: Text('Signup'))
+                }, child: Text(" Don''t have an account? Signup" , ))
               ],
             ),
           )
-        ],
+              ],
       ),
+      )
+      )
     );
   }
 }
