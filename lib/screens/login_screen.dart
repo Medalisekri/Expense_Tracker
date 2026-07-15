@@ -8,6 +8,9 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 class _LoginScreenState extends State<LoginScreen> {
+  String? _emailError;
+  String? _passError;
+  String? _generalError;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   @override
@@ -49,9 +52,11 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               children: [
               TextField(
+                onChanged: (val)=>setState(()=>_emailError=null) ,
                 controller: _emailController,
                 style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
+                  errorText: _emailError,
                   label: Text('Email'),
                   labelStyle: TextStyle(color: Colors.white54),
                   enabledBorder: OutlineInputBorder(
@@ -66,9 +71,11 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
                 const SizedBox(height: 25,),
                 TextField(
+                  onChanged: (val)=>setState(()=>_passError=null) ,
                   controller: _passwordController,
                   style: TextStyle(color: Colors.white),
                   decoration: InputDecoration(
+                    errorText: _passError,
                       label: Text('Password'),
                       labelStyle: TextStyle(color: Colors.white54),
                       enabledBorder: OutlineInputBorder(
@@ -84,13 +91,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 40,),
                 SizedBox(width: double.infinity,
-             child:    ElevatedButton(onPressed: () async {
+             child:   ElevatedButton(onPressed: () async {
                   if (_emailController.text.isEmpty || _passwordController.text.isEmpty){
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Email and password are required" ,
-                      style: TextStyle(color: Colors.red) ,)));
+                        setState(()=>_emailError='Email is required' );
+                        setState(()=>_passError='Password is required' );
                     return;
                   }
-
                   try {
                     await FirebaseAuth.instance.signInWithEmailAndPassword(
                         email: _emailController.text.trim(),
@@ -98,7 +104,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     Navigator.pushReplacementNamed(context, '/home');
                   }
                   on FirebaseAuthException catch (e) {
-                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text(e.message?? 'Login Failed')));
+                 setState(()=>_generalError = e.message?? 'Login Failed');
+
                   }
                 },
                  style: ElevatedButton.styleFrom(
@@ -108,6 +115,9 @@ class _LoginScreenState extends State<LoginScreen> {
                  ),
                     child: Text('Login' , style: TextStyle(color: Colors.white),)),),
                 const SizedBox(height: 30,),
+                if(_generalError!=null)
+                  Padding(padding: EdgeInsets.only(top: 8) ,child: 
+                    Text(_generalError! , style: TextStyle(color: Colors.red),),),
                 TextButton(onPressed:(){
                   Navigator.pushNamed(context, '/signup');
                 }, child: Text(" Don''t have an account? Signup" , ))

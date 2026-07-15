@@ -10,6 +10,9 @@ class AddExpensesScreen extends ConsumerStatefulWidget {
   ConsumerState<AddExpensesScreen> createState() => _AddExpensesScreenState();
 }
 class _AddExpensesScreenState extends ConsumerState<AddExpensesScreen> {
+  String? _amountError;
+  String? _noteError;
+
   String? item = 'Food';
     final _noteController = TextEditingController();
   final _amountController = TextEditingController();
@@ -35,7 +38,7 @@ class _AddExpensesScreenState extends ConsumerState<AddExpensesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
+        backgroundColor: Colors.indigo.withValues(alpha: 0.1),
       ),
       body:Container(
         height: double.infinity,
@@ -48,7 +51,9 @@ class _AddExpensesScreenState extends ConsumerState<AddExpensesScreen> {
           ),
           child:
           SafeArea(child:
+
       Column(
+
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
 
@@ -69,13 +74,13 @@ class _AddExpensesScreenState extends ConsumerState<AddExpensesScreen> {
       children: [
           TextField(
             style: TextStyle(color: Colors.white),
-
+            onChanged: (val)=>setState(()=> _amountError = null ),
             decoration: InputDecoration(
 
               label: Text('Amount' ,
-                  
+
                 style: TextStyle(color: Colors.white),),
-              
+              errorText: _amountError,
               labelStyle: TextStyle(color: Colors.white),
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.black),
@@ -92,9 +97,12 @@ class _AddExpensesScreenState extends ConsumerState<AddExpensesScreen> {
           ),
           const SizedBox(height: 25,),
           TextField(controller: _noteController,
+            onChanged: (val)=>setState(()=>_amountError = null),
             style: TextStyle(color: Colors.white),
+
           decoration: InputDecoration(
             label: Text('Note' , style: TextStyle(color: Colors.white),),
+              errorText: _noteError,
               labelStyle: TextStyle(color: Colors.white),
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.black),
@@ -138,25 +146,23 @@ class _AddExpensesScreenState extends ConsumerState<AddExpensesScreen> {
                   Text(item),)
             ], hint: Text('Category'),
           ),)),
+          const SizedBox(height: 30,),
           SizedBox(width: double.infinity,
             child:
          ElevatedButton(onPressed: (){
             final String noteInput = _noteController.text.trim();
             final double? amountInput = double.tryParse(_amountController.text.trim());
             final DateTime dateInput = date;
-           if (noteInput.isEmpty || amountInput==null){
-             ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor: Colors.red,content:Text('Fill the form' ,
-               style: TextStyle(color: Colors.black) ,)));
+           if (amountInput==null){
+           setState(()=>_amountError = 'Amount in required');
              return ;
            }
-           if(amountInput<=0|| amountInput.isNegative){
-             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Enter a valid amount' ,
-               style: TextStyle(color: Colors.red) ,),));
+           if(amountInput<=0){
+             setState(()=>_amountError = 'Amount should be more than 0 ');
              return;
            }
             if(noteInput.length>100){
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Note is too long' ,
-                style: TextStyle(color: Colors.red) ,),));
+              setState(()=>_noteError = 'Note is too long');
               return;
             }
             final newExpense = Expense(
@@ -174,7 +180,8 @@ class _AddExpensesScreenState extends ConsumerState<AddExpensesScreen> {
                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                padding: EdgeInsets.symmetric(vertical: 10)
              ),
-              child: Text('Add' , style: TextStyle(color: Colors.white),)))
+              child: Text(widget.expense!=null ?'Edit':'Add' , style: TextStyle(color: Colors.white),))),
+
         ],
       ),)
             ],

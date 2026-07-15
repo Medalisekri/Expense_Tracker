@@ -6,6 +6,9 @@ class SignupScreen extends StatefulWidget {
   State<SignupScreen> createState() => _SignupScreenState();
 }
 class _SignupScreenState extends State<SignupScreen> {
+  String? _emailError;
+  String? _passError;
+  String? _generalError;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
       @override
@@ -30,7 +33,7 @@ class _SignupScreenState extends State<SignupScreen> {
       Column(
 mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('Create an account' , style: TextStyle(fontSize: 20),),
+          Text('Create an account' , style: TextStyle(fontSize: 30),),
           const SizedBox(height: 35,),
 
           Container(
@@ -48,10 +51,12 @@ mainAxisAlignment: MainAxisAlignment.center,
 
 
                 TextField(
+                  onChanged:(val)=> setState(() =>_emailError = null),
                   controller: _emailController,
                   style: TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     label: Text('Email'),
+                    errorText: _emailError,
                     labelStyle: TextStyle(color: Colors.white),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.black),
@@ -65,10 +70,12 @@ mainAxisAlignment: MainAxisAlignment.center,
                 ),
                 const SizedBox(height: 20,),
                 TextField(
+                  onChanged: (val)=>setState(()=>_passError = null),
                   controller: _passwordController,
                   style: TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     label: Text('Password'),
+                    errorText: _passError,
                     labelStyle: TextStyle(color: Colors.white),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.black),
@@ -87,20 +94,18 @@ mainAxisAlignment: MainAxisAlignment.center,
                 ElevatedButton(onPressed: () async{
                   final emailInput = _emailController.text.trim();
                   final passInput = _passwordController.text.trim();
-                  if(_passwordController.text.isEmpty || _emailController.text.isEmpty){
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Email and password are required" ,
-                      style: TextStyle(color: Colors.red) ,),));
+                  if(_passwordController.text.isEmpty ||_emailController.text.isEmpty){
+                        setState(()=>_passError = 'Password is required'  );
+                        setState(()=>_emailError = 'Email is required'  );
                   return;
                   }
 
                   if(!_emailController.text.contains('@') || !_emailController.text.contains('.')){
-                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Enter a valid email",
-                     style: TextStyle(color: Colors.red) ,),));
+                        setState(()=>_emailError='Enter a valid email address' );
                     return;
                   }
                   if(_passwordController.text.length<6){
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Password should be more than 6 characters",
-                    style: TextStyle(color: Colors.red),),));
+                  setState(()=>_passError = 'Password should be more than 6 characters');
                     return;
                   }
 
@@ -108,7 +113,8 @@ mainAxisAlignment: MainAxisAlignment.center,
                     await FirebaseAuth.instance.createUserWithEmailAndPassword(email: emailInput, password: passInput);
                     Navigator.pushReplacementNamed(context, '/home');
                   }on FirebaseAuthException catch (e){
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message ?? 'SignUp Failed')));
+                  setState(()=> _generalError = e.message ?? 'Sign Up Failed');
+
                   }
                 },
                     style: ElevatedButton.styleFrom(
@@ -117,6 +123,9 @@ mainAxisAlignment: MainAxisAlignment.center,
                       padding: EdgeInsets.symmetric(vertical: 16)
                     ),
                     child: Text('Sign Up' , style: TextStyle(color: Colors.white),))),
+               if(_generalError!=null)
+                Padding(padding:
+               EdgeInsets.only(top: 8) , child: Text(_generalError! , style: TextStyle(color: Colors.red),),),
                const SizedBox(height: 30,),
                 TextButton(onPressed: (){
                   Navigator.pushNamed(context, '/login');

@@ -62,6 +62,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           borderRadius: BorderRadius.circular(10)
         ),
         child:
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -88,16 +89,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             color: Colors.black ),),
             ),
             const SizedBox(height: 10,),
-          Row(
-            mainAxisSize: MainAxisSize.min,
 
-              children: [  Text("Your Expenses" , style: TextStyle(
+                Text("Your Expenses" , style: TextStyle(
                 fontSize: 15, fontWeight: FontWeight.bold ,color: Colors.black
             ),
             ),
-                const SizedBox(width: 20,),
-                IconButton(onPressed: (){Navigator.pushNamed(context  , '/addexpenses');}, icon: Icon(Icons.add)),
-      ]),
+
+
+
                         Expanded(child:Container(
 
                           padding: EdgeInsets.all(14),
