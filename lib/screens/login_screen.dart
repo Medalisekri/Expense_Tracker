@@ -1,4 +1,5 @@
 
+import 'package:expense_tracker/services/auth_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 class LoginScreen extends StatefulWidget {
@@ -8,6 +9,7 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 class _LoginScreenState extends State<LoginScreen> {
+  final _authService= AuthService();
   String? _emailError;
   String? _passError;
   String? _generalError;
@@ -18,6 +20,44 @@ class _LoginScreenState extends State<LoginScreen> {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+  void _showResetDialog(BuildContext context) {
+    final _resetController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Reset password'),
+        content: TextField(
+          controller: _resetController,
+          decoration: InputDecoration(hintText: 'Enter your email'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () async {
+              if (_resetController.text.isEmpty) return;
+              try {
+                await FirebaseAuth.instance.sendPasswordResetEmail(
+                  email: _resetController.text.trim(),
+                );
+                Navigator.pop(context);
+                setState(() => _generalError = null);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Reset email sent — check your inbox')),
+                );
+              } on FirebaseAuthException catch (e) {
+                Navigator.pop(context);
+                setState(() => _generalError = e.message ?? 'Failed to send reset email');
+              }
+            },
+            child: Text('Send'),
+          ),
+        ],
+      ),
+    );
   }
   @override
   Widget build(BuildContext context) {
@@ -34,9 +74,12 @@ class _LoginScreenState extends State<LoginScreen> {
           )
       ),
         child:
-            SafeArea(child:
+            SafeArea(
+                child: SingleChildScrollView(
+
+              child:
       Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+
         children: [
           Text('Welcome Back' , style: TextStyle(fontSize: 30),),
           const SizedBox(height: 35,),
@@ -114,6 +157,29 @@ class _LoginScreenState extends State<LoginScreen> {
                    padding: EdgeInsets.symmetric(vertical: 16)
                  ),
                     child: Text('Login' , style: TextStyle(color: Colors.white),)),),
+                const SizedBox(height: 10,),
+                TextButton(
+                  onPressed: () => _showResetDialog(context),
+                  child: Text('Forgot password?', style: TextStyle(color: Colors.white70)),
+                ),
+                const SizedBox(height: 20,),
+                SizedBox(child: OutlinedButton.icon(onPressed:
+                ()async{
+                  final result =  await _authService.signInWithGoogle();
+                  if(result !=null){
+                    Navigator.pushReplacementNamed(context, '/home');
+                  }else{
+                    setState(()=>_generalError = 'Google sign in failed');
+                  }
+                },
+                    icon: Icon(Icons.g_mobiledata),
+                    label: Text('Continue with Google'),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    side: BorderSide(color: Colors.black),
+                    padding: EdgeInsets.symmetric(vertical: 12),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  ),),),
                 const SizedBox(height: 30,),
                 if(_generalError!=null)
                   Padding(padding: EdgeInsets.only(top: 8) ,child: 
@@ -128,6 +194,6 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       )
       )
-    );
+    ));
   }
 }

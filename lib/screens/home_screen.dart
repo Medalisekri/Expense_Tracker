@@ -18,6 +18,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     double total = expenses.fold(0.0, (sum , expense) => sum +expense.amount);
       return Scaffold(
         appBar: AppBar(
+            automaticallyImplyLeading: false,
           backgroundColor: Colors.indigo.withValues(alpha: 0.3),
           actions: [
             IconButton(onPressed: () async {
@@ -37,7 +38,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 end: Alignment.bottomRight,
                 colors: [Colors.white54 , Colors.indigoAccent , Colors.white12])
         ),child: Center(
-      child: Column(
+      child:
+      Column(
         mainAxisAlignment: MainAxisAlignment.center,
       children: [
       Icon(Icons.dangerous_outlined , size: 30,),
@@ -46,12 +48,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     ],
     ),
     ))
-       : Container(decoration: BoxDecoration(
+       : Container(
+          height: double.infinity,
+          width: double.infinity,
+          decoration: BoxDecoration(
             gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [Colors.white54 , Colors.indigoAccent , Colors.white12])
-        ),child: Column(
+        ),
+          child: Column(
           children: [
             Container(
               padding: EdgeInsets.all(15),

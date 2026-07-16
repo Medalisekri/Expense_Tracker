@@ -29,7 +29,10 @@ class _SignupScreenState extends State<SignupScreen> {
             end: Alignment.bottomRight,
             colors: [Colors.white54 , Colors.indigoAccent  , Colors.white12 ]),
       ),
-        child: SafeArea(child:
+        child: SafeArea(
+            child: SingleChildScrollView(
+
+          child:
       Column(
 mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -138,6 +141,6 @@ mainAxisAlignment: MainAxisAlignment.center,
         ],
       ),
       ))
-    );
+    ));
   }
 }

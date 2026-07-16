@@ -50,7 +50,10 @@ class _AddExpensesScreenState extends ConsumerState<AddExpensesScreen> {
                 colors: [Colors.white54 , Colors.indigoAccent , Colors.white12])
           ),
           child:
-          SafeArea(child:
+          SafeArea(
+              child: SingleChildScrollView(
+
+              child:
 
       Column(
 
@@ -117,6 +120,7 @@ class _AddExpensesScreenState extends ConsumerState<AddExpensesScreen> {
           ),
           const SizedBox(height: 30,),
           Container(
+
               margin: EdgeInsets.all(5),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.3),
@@ -186,6 +190,6 @@ class _AddExpensesScreenState extends ConsumerState<AddExpensesScreen> {
       ),)
             ],
       )))
-      );
+      ));
   }
 }
