@@ -31,7 +31,10 @@ class _SignupScreenState extends State<SignupScreen> {
       ),
         child: SafeArea(
             child: SingleChildScrollView(
-
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.15, // pushes content down
+                  ),
           child:
       Column(
 mainAxisAlignment: MainAxisAlignment.center,
@@ -141,6 +144,6 @@ mainAxisAlignment: MainAxisAlignment.center,
         ],
       ),
       ))
-    ));
+    )));
   }
 }

@@ -52,7 +52,10 @@ class _AddExpensesScreenState extends ConsumerState<AddExpensesScreen> {
           child:
           SafeArea(
               child: SingleChildScrollView(
-
+                  child: Padding(
+                      padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height * 0.15, // pushes content down
+                      ),
               child:
 
       Column(
@@ -190,6 +193,6 @@ class _AddExpensesScreenState extends ConsumerState<AddExpensesScreen> {
       ),)
             ],
       )))
-      ));
+      )));
   }
 }

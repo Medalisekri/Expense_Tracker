@@ -76,7 +76,10 @@ class _LoginScreenState extends State<LoginScreen> {
         child:
             SafeArea(
                 child: SingleChildScrollView(
-
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height * 0.15, // pushes content down
+                      ),
               child:
       Column(
 
@@ -194,6 +197,6 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       )
       )
-    ));
+    )));
   }
 }
