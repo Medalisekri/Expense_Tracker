@@ -57,9 +57,7 @@ class _AddExpensesScreenState extends ConsumerState<AddExpensesScreen> {
                         top: MediaQuery.of(context).size.height * 0.15, // pushes content down
                       ),
               child:
-
       Column(
-
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
 

@@ -100,11 +100,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 fontSize: 15, fontWeight: FontWeight.bold ,color: Colors.black
             ),
             ),
-
-
-
                         Expanded(child:Container(
-
                           padding: EdgeInsets.all(14),
                           margin: EdgeInsets.all(15),
                           decoration: BoxDecoration(
