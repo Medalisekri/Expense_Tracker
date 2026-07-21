@@ -14,7 +14,8 @@
 
 | Login | Home | Add Expense |
 |---|---|---|
-| *<img width="200" height="400" alt="Screenshot (389)" src="https://github.com/user-attachments/assets/dfa3c624-ecca-46c6-ba4e-5a24b19905dc" />* | *<img width="200" height="400" alt="Screenshot (389)" src="https://github.com/user-attachments/assets/91b36029-9d7d-4e28-9a7c-966720c63c84" />*| *<img width="200" height="400" alt="Screenshot (388)" src="https://github.com/user-attachments/assets/e251da67-ece6-44ab-80f5-def0e08ac31b" />* |
+| *<img width="200" height="400" alt="Screenshot (389)" src="https://github.com/user-attachments/assets/dfa3c624-ecca-46c6-ba4e-5a24b19905dc" />* | *<img width="200" height="400" alt="Screenshot (387)" src="https://github.com/user-attachments/assets/a425fe14-ed14-4e70-a9d3-81c0c8f70c42" />*
+| *<img width="200" height="400" alt="Screenshot (388)" src="https://github.com/user-attachments/assets/e251da67-ece6-44ab-80f5-def0e08ac31b" />* |
 
 
 
