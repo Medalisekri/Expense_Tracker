@@ -128,7 +128,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 title: Text(filtered[index].category , style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),),
-                                subtitle: Text('${filtered[index].amount} DT'),
+                                 subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(filtered[index].note,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    Text('${filtered[index].amount.toStringAsFixed(3)} DT',
+                                      style: TextStyle(fontWeight: FontWeight.w500),
+                                    ),
+                                  ],
+                                ),
                               );
 
                             }),
